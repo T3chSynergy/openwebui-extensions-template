@@ -87,7 +87,10 @@ def deploy(client: OpenWebUI, only: set[str] | None = None, dry_run: bool = Fals
         for model in discover_models():
             if only and model.id not in only:
                 continue
-            form = build_model_form(model)
+            try:
+                form = build_model_form(model)
+            except KeyError as error:
+                raise SystemExit(f"{model.relpath}/model.json: {error.args[0]} (in .env oder der Umgebung setzen).")
             current = client.get_or_none("/api/v1/models/model", {"id": model.id})
             comparable = {k: current.get(k) for k in ("name", "base_model_id", "meta", "params", "is_active")} if current else None
             wanted = {k: form[k] for k in ("name", "base_model_id", "meta", "params", "is_active")}
