@@ -1,0 +1,19 @@
+[project]
+name = "openwebui-extensions"
+version = "0.1.0"
+description = "Erweiterungen für Open WebUI: Tools, Funktionen und Modelle"
+requires-python = ">=3.11"
+license = "MIT"
+dependencies = []
+
+[dependency-groups]
+# Alles, was die Erweiterungen in den Tests brauchen. Steht in einer Erweiterung
+# „requirements: paket“ im Kopf, das Paket hier ebenfalls eintragen.
+dev = [
+    "pytest>=8",
+    "pydantic>=2",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-p no:cacheprovider"

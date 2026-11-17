@@ -1,0 +1,11 @@
+# Zugangsdaten
+.env
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+
+# Lokale Testinstanz
+e2e/data/

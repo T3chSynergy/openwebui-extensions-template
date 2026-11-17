@@ -1,0 +1,35 @@
+{
+  "id": "beispiel-assistent",
+  "name": "Beispiel-Assistent",
+  "base_model_id": "${BEISPIEL_BASISMODELL:-echo}",
+  "meta": {
+    "description": "Beispielmodell der Vorlage: nutzt das Tool Textstatistik, den Filter Datum einfügen und die Aktion Textstatistik anzeigen.",
+    "capabilities": {
+      "file_upload": false,
+      "web_search": false,
+      "image_generation": false,
+      "code_interpreter": false,
+      "citations": true,
+      "status_updates": true,
+      "usage": true
+    },
+    "toolIds": [
+      "text_statistik"
+    ],
+    "actionIds": [
+      "textstatistik_anzeigen"
+    ],
+    "filterIds": [
+      "datum_einfuegen"
+    ],
+    "tags": [
+      {
+        "name": "beispiel"
+      }
+    ]
+  },
+  "params": {
+    "temperature": 0.2
+  },
+  "is_active": true
+}
