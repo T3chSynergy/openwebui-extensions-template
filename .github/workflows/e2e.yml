@@ -1,0 +1,32 @@
+name: E2E gegen Open WebUI
+
+# Lädt das Open-WebUI-Image (mehrere GB). Deshalb nicht bei jedem Push,
+# sondern von Hand, wöchentlich und bei Änderungen an e2e/ oder scripts/.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 4 * * 1"
+  pull_request:
+    paths:
+      - "e2e/**"
+      - "scripts/**"
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - name: Open WebUI starten
+        run: docker compose -f e2e/docker-compose.yml up -d --wait
+      - name: Einspielen und testen
+        env:
+          OWUI_URL: http://localhost:3000
+        run: uv run pytest e2e -v
+      - name: Protokoll bei Fehler
+        if: failure()
+        run: docker compose -f e2e/docker-compose.yml logs --tail 200
+      - name: Aufräumen
+        if: always()
+        run: docker compose -f e2e/docker-compose.yml down -v
